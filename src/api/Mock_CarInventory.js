@@ -12480,10 +12480,5 @@ export function getInventory(id) {
   });
 }
 export function getFullInventory() {
-  return new Promise((resolve, reject) => {
-    process.nextTick(() => {
-      resolve(AvailInv.payload);
-      reject({ error: 'Full Inventory was not found' });
-    });
-  });
+  return AvailInv.payload;
 }
