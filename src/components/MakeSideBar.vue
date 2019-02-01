@@ -1,28 +1,75 @@
 <template>
-  <div id="make" v-on:change="">
-    <input type="checkbox" id="ford" value="ford" v-model="checkedMakers">
-    <label for="ford">Ford</label>
-    <input type="checkbox" id="Chevrolet" value="Chevrolet" v-model="checkedMakers">
-    <label for="Chevrolet">Chevrolet</label>
-    <input type="checkbox" id="BMW" value="BMW" v-model="checkedMakers">
-    <label for="BMW">BMW</label>
-    <input type="checkbox" id="ram" value="ram" v-model="checkedMakers">
-    <label for="ram">Ram</label>
-    <input type="checkbox" id="Toyota" value="Toyota" v-model="checkedMakers">
-    <label for="Toyota">Toyota</label>
-    <input type="checkbox" id="Dodge" value="Dodge" v-model="checkedMakers">
-    <label for="Dodge">Dodge</label>
+  <div id="make">
+    <div class="makeBtn" v-for="make in makes">
+      <input
+        type="checkbox"
+        class="makersCkBox"
+        :id="make.id"
+        :value="make"
+        v-model="checkedMakers"
+      />
+      <div class="MakeIcon">
+        <label :for="make">{{ make }}</label>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
-  name: 'mainResult',
-  props: ['inventory'],
+  name: 'MakeSideBar',
   data() {
     return {
-      checkedMakers: []
+      makes: []
     };
+  },
+  watch: {
+    inventory() {
+      let availOptions = [];
+      this.inventory.forEach((car, index) => {
+        //console.log(car.make);
+        if (!availOptions.includes(car.make)) {
+          availOptions.push(car.make);
+        }
+      });
+      this.makes = availOptions;
+    }
+  },
+  methods: {
+    ChangeMake() {
+      this.$emit('changeMakers', this.checkedMakers);
+    }
+  },
+  computed: {
+    inventory() {
+      return this.$store.state.inventory;
+    },
+    checkedMakers: {
+      get() {
+        return this.$store.state.checkedMakers;
+      },
+      set(value) {
+        this.$store.commit('changeMakes', value);
+      }
+    }
   }
 };
 </script>
+
+<style lang="scss">
+#make {
+  .makeBtn {
+    height: 60px;
+    color: #eee;
+    font-size: 0.6rem;
+  }
+  .makeBtn input[text='checkbox'] {
+    position: absolute;
+    visibility: hidden;
+  }
+  .makersCkBox:checked + .MakeIcon {
+  }
+}
+</style>

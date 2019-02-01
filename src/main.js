@@ -1,37 +1,34 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
+import Vuex from 'vuex';
 import App from './App';
-import axios from 'axios';
-import getFullInventory from './api/Mock_CarInventory';
 
 Vue.config.productionTip = false;
+Vue.use(Vuex);
 
+const store = new Vuex.Store({
+  state: {
+    inventory: [],
+    checkedMakers: [],
+    checkedModels: []
+  },
+  mutations: {
+    populateInventory(state, Inventory) {
+      this.state.inventory = Inventory;
+    },
+    changeMakes(state, changes) {
+      this.state.checkedMakers = changes;
+    },
+    changeModels(state, changes) {
+      this.state.checkedModels = changes;
+    }
+  }
+});
 /* eslint-disable no-new */
-var app = new Vue({
+let app = new Vue({
   el: '#app',
-  data() {
-    return {
-      inventory: null,
-      checkedMakers: []
-    };
-  },
-  mounted() {
-    this.inventory = getFullInventory();
-    /*axios
-      .get('http://sleekstreetdesigns.com/ModelsRest/viewMake.json')
-      .then(response => {
-        //this.inventory = response.data.payload;
-      })
-      .catch(error => console.log(error));*/
-  },
-  api() {
-    this.inventory = getFullInventory();
-  },
-  watch: {
-    checkedMakers: () => {}
-  },
-  methods: {},
+  store,
   components: { App },
   template: '<App/>'
 });
