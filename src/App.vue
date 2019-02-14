@@ -12,7 +12,6 @@
 import MainResult from './components/MainResult';
 import MakeSideBar from './components/MakeSideBar';
 import ModelSideBar from './components/ModelSideBar';
-import axios from 'axios';
 import { getFullInventory } from './api/Mock_CarInventory';
 import { mapState } from 'vuex';
 
@@ -36,7 +35,7 @@ export default {
       .catch(error => console.log('Axios ' + error));
       */
   },
-  computed: mapState(['inventory', 'checkedMakers', 'models', 'makes']),
+  computed: mapState(['inventory', 'checkedMakers', 'checkedModels']),
   methods: {
     iniOptions: (inv, option) => {
       let availOptions = [];

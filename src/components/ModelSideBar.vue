@@ -1,13 +1,8 @@
 <template>
   <div id="modelName">
     <div v-for="option in options">
-      <input
-        type="checkbox"
-        v-model="checkedModel"
-        :name="model"
-        :value="option"
-      />
-      <label :for="model">{{ option }}</label>
+      <input type="checkbox" v-model="checkedModel" :value="option" />
+      <label>{{ option }}</label>
     </div>
   </div>
 </template>
@@ -51,9 +46,16 @@ export default {
     refreshModels() {
       let models = [];
       this.inventory.forEach((car, index) => {
-        if (this.checkedMakers.includes(car.make)) {
-          if (!models.includes(car.model)) {
-            models.push(car.model);
+        if (this.checkedMakers.length == 0) {
+          models.push(car.model);
+        } else {
+          if (
+            this.checkedMakers.length > 0 &&
+            this.checkedMakers.includes(car.make)
+          ) {
+            if (!models.includes(car.model)) {
+              models.push(car.model);
+            }
           }
         }
       });
