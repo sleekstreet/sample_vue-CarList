@@ -45,6 +45,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../../assets/scss/_mixins.scss";
+
 .text-field {
   text-align: left;
   margin: 5px 4px;
@@ -54,7 +56,13 @@ export default {
     font-size: 1.4rem;
   }
   input {
-    width: 93%;
+    @include breakpoint(lg) {
+      width: 93%;
+    }
+    @include breakpoint(md) {
+      width: 92%;
+    }
+
     padding: 5px;
   }
 }

@@ -74,10 +74,8 @@ export default {
 </script>
 
 <style lang="scss">
-@mixin box($width, $height) {
-  width: $width;
-  height: $height;
-}
+@import "./assets/scss/_mixins.scss";
+
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -120,14 +118,27 @@ export default {
   border-bottom: 1px solid #aaa;
 }
 .container {
-  @include box(1920px, 1080px);
-  display: grid;
-  grid-template-columns: 60px 200px auto 1120px;
-  grid-template-rows: 60px 43px auto 140px;
-  grid-template-areas:
-    "topbar topbar topbar topbar"
-    "makeSide modelSide searchBar searchBar"
-    "makeSide modelSide main main"
-    "footer footer footer footer";
+  @include breakpoint(md) {
+    @include box(1380px, 1080px);
+    display: grid;
+    grid-template-columns: 60px 200px auto 1120px;
+    grid-template-rows: 60px 43px auto 140px;
+    grid-template-areas:
+      "topbar topbar topbar topbar"
+      "makeSide modelSide searchBar searchBar"
+      "makeSide modelSide main main"
+      "footer footer footer footer";
+  }
+  @include breakpoint(lg) {
+    @include box(1200px, 1080px);
+    display: grid;
+    grid-template-columns: 60px 200px auto 1120px;
+    grid-template-rows: 60px 43px auto 140px;
+    grid-template-areas:
+      "topbar topbar topbar topbar"
+      "makeSide modelSide searchBar searchBar"
+      "makeSide modelSide main main"
+      "footer footer footer footer";
+  }
 }
 </style>
