@@ -1,22 +1,16 @@
 <template>
   <table id="mainResults">
-    <!--
-      <tr>
-        <label for="searchQuery">search</label
-        ><input type="text" name="searchQuery" />
-      </tr>
-    -->
-    <tr v-for="item in items" :key="items.id">
+    <tr v-for="(item, e) in items" :key="e">
       <td v-for="(val, key) in item" :key="key">{{ val }}</td>
     </tr>
   </table>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+// import { mapState } from 'vuex';
 
 export default {
-  name: 'mainResult',
+  name: "mainResult",
   data() {
     return {
       items: []
@@ -31,6 +25,9 @@ export default {
     },
     checkedModels() {
       this.refreshResult();
+    },
+    query() {
+      this.refreshResult();
     }
   },
   computed: {
@@ -42,35 +39,48 @@ export default {
     },
     checkedModels() {
       return this.$store.state.checkedModels;
+    },
+    query() {
+      return this.$store.state.query;
     }
   },
   methods: {
     refreshResult() {
       //let availResults = [];
-      if (this.checkedMakers.length == 0 && this.checkedModels.length == 0) {
-        this.items = this.inventory;
+      if (this.checkedMakers.length === 0 && this.checkedModels.length === 0) {
+        this.items = this.inventory.filter(car => {
+          return (
+            car.style.includes(this.query) || car.trim.includes(this.query)
+          );
+        });
       } else {
         if (this.checkedMakers.length > 0 && this.checkedModels.length > 0) {
-          console.log('both');
+          // console.log('both');
           this.items = this.inventory.filter(car => {
-            if (
-              this.checkedMakers.indexOf(car.make) != -1 &&
-              this.checkedModels.indexOf(car.model) != -1
-            )
-              return true;
+            return (
+              this.checkedMakers.indexOf(car.make) !== -1 &&
+              this.checkedModels.indexOf(car.model) !== -1 &&
+              (car.style.includes(this.query) || car.trim.includes(this.query))
+            );
           });
         } else if (
           this.checkedMakers.length > 0 &&
-          this.checkedModels.length == 0
+          this.checkedModels.length === 0
         ) {
-          console.log('maker');
+          // console.log('maker');
           this.items = this.inventory.filter(car => {
-            if (this.checkedMakers.indexOf(car.make) != -1) return true;
+            return (
+              this.checkedMakers.indexOf(car.make) !== -1 &&
+              (car.style.includes(this.query) || car.trim.includes(this.query))
+            );
           });
         } else {
-          console.log('model');
+          // console.log('model');
           this.items = this.inventory.filter(car => {
-            if (this.checkedModels.indexOf(car.model) != -1) return true;
+            return (
+              this.checkedModels.indexOf(car.model) !== -1 &&
+              (car.style.includes(this.query) || car.trim.includes(this.query))
+            );
           });
         }
       }

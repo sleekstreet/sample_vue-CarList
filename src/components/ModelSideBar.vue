@@ -1,17 +1,17 @@
 <template>
   <div id="modelName">
-    <div v-for="option in options">
-      <input type="checkbox" v-model="checkedModel" :value="option" />
+    <div v-for="(option, i) in options" :key="i">
+      <input type="checkbox" v-model="checkedModel" :value="option">
       <label>{{ option }}</label>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+// import { mapState } from "vuex";
 
 export default {
-  name: 'models',
+  name: "models",
   data() {
     return {
       selectedModel: [],
@@ -38,7 +38,7 @@ export default {
         return this.$store.state.checkedModels;
       },
       set(value) {
-        this.$store.commit('changeModels', value);
+        this.$store.commit("changeModels", value);
       }
     }
   },
@@ -62,7 +62,7 @@ export default {
       this.options = models;
     },
     ChangeModels() {
-      this.$emit('changeModels', this.checkedModels);
+      this.$emit("changeModels", this.checkedModels);
     }
   }
 };
@@ -70,8 +70,8 @@ export default {
 <style lang="scss">
 #modelName div {
   text-align: left;
-  padding: 10px 3px;
-  border-bottom: 1px solid #ddd;
+  padding: 10px;
+  border-bottom: 1px solid #aaa;
   transition: 0.5s;
 }
 #modelName div:hover {

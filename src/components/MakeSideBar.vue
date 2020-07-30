@@ -1,14 +1,16 @@
 <template>
   <div id="make">
-    <div class="makeBtn" v-for="make in makes">
+    <div class="makeBtn" v-for="(make, k) in makes" :key="k">
       <input
         type="checkbox"
         class="makersCkBox"
         :id="make.id"
         :value="make"
         v-model="checkedMakers"
-      />
-      <div class="MakeIcon">
+      >
+      <div class="Make-Icon">
+        <img :src="logos[make]">
+        <br>
         <label :for="make">{{ make }}</label>
       </div>
     </div>
@@ -16,13 +18,23 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+// import { mapState } from "vuex";
 
 export default {
-  name: 'MakeSideBar',
+  name: "MakeSideBar",
   data() {
     return {
-      makes: []
+      makes: [],
+      logos: {
+        BMW: require("@/assets/BMW.png"),
+        Ram: require("@/assets/Ram.png"),
+        Chevrolet: require("@/assets/Chevrolet.png"),
+        Ford: require("@/assets/Ford.png"),
+        Dodge: require("@/assets/Dodge.png"),
+        Toyota: require("@/assets/Toyota.png"),
+        Pontiac: require("@/assets/Pontiac.png"),
+        Ferrari: require("@/assets/Ferrari.png")
+      }
     };
   },
   watch: {
@@ -39,7 +51,7 @@ export default {
   },
   methods: {
     ChangeMake() {
-      this.$emit('changeMakers', this.checkedMakers);
+      this.$emit("changeMakers", this.checkedMakers);
     }
   },
   computed: {
@@ -51,7 +63,7 @@ export default {
         return this.$store.state.checkedMakers;
       },
       set(value) {
-        this.$store.commit('changeMakes', value);
+        this.$store.commit("changeMakes", value);
       }
     }
   }
@@ -61,15 +73,19 @@ export default {
 <style lang="scss">
 #make {
   .makeBtn {
-    height: 60px;
+    height: 70px;
     color: #eee;
     font-size: 0.6rem;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0 20px 0;
   }
-  .makeBtn input[text='checkbox'] {
+  .makeBtn input[text="checkbox"] {
     position: absolute;
     visibility: hidden;
   }
-  .makersCkBox:checked + .MakeIcon {
+  .Make-Icon img {
+    width: 35px;
   }
+  // .makersCkBox:checked + .MakeIcon {}
 }
 </style>
